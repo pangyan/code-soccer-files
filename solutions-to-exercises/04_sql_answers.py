@@ -7,8 +7,10 @@ outlined in the book and ./code/04_sql.py.
 import pandas as pd
 from os import path
 import sqlite3
+from pathlib import Path
 
-DATA_DIR = './data'
+BASE_DIR = Path(__file__).parent
+DATA_DIR = (BASE_DIR / '../data').resolve()
 
 conn = sqlite3.connect(path.join(DATA_DIR, 'soccer-data.sqlite'))
 

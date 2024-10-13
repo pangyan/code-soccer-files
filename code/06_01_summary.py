@@ -2,24 +2,25 @@ import pandas as pd
 from pandas import DataFrame
 import seaborn as sns
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 from os import path
 import matplotlib.image as mpimg
+from pathlib import Path
 
 pd.options.mode.chained_assignment = None
-%matplotlib qt
+# wongiy
+# %matplotlib qt
+matplotlib.use('Qt5Agg')
 
 # change this to the directory where the csv files that come with the book are
 # stored
 # on Windows it might be something like 'C:/mydir'
 
-DATA_DIR = './data'
-FIG_DIR = './figures'
+BASE_DIR = Path(__file__).parent
+DATA_DIR = (BASE_DIR / '../data').resolve()
+FIG_DIR = (BASE_DIR / '../figures').resolve()
 
-dftm = dfpm.groupby(['match_id', 'team']).agg(
-    total_shot=('shot', 'sum'),
-    total_pass=('pass', 'sum'),
-    total_goal=('goal', 'sum'))
 
 ###############
 # distributions
@@ -31,6 +32,11 @@ dfm = pd.read_csv(path.join(DATA_DIR, 'matches.csv'))
 dfp = pd.read_csv(path.join(DATA_DIR, 'players.csv'))
 dft = pd.read_csv(path.join(DATA_DIR, 'teams.csv'))
 dftm = pd.read_csv(path.join(DATA_DIR, 'team_match.csv'))
+
+dftm = dfpm.groupby(['match_id', 'team']).agg(
+    total_shot=('shot', 'sum'),
+    total_pass=('pass', 'sum'),
+    total_goal=('goal', 'sum'))
 
 # processing
 dfpm = pd.merge(dfpm, dfm[['match_id', 'home_team', 'away_team']], how='left')
